@@ -7,6 +7,7 @@ namespace TransFormation
 
         bool goFront, goBack, goLeft, goRight;
         private Player player = new Player(150, 400, 3 * (float)Math.PI / 2);
+        private Maze maze = new Maze(new Wall());
 
         public Form1()
         {
@@ -60,6 +61,7 @@ namespace TransFormation
             if (goLeft) player.rotate("left");
 
             picBox1.Invalidate();
+            picBox2.Invalidate();
         }
 
         private void UpdatePictureBoxGraphics(object sender, PaintEventArgs e)
@@ -75,8 +77,27 @@ namespace TransFormation
             canvas.FillEllipse(playerColour, player.bodyRect);
 
             // Draw Walls
-            Pen wallColour = new Pen(Brushes.BlueViolet);
+            maze.drawWalls(canvas);
+        }
+
+        private void UpdatePictureBoxGraphics2(object sender, PaintEventArgs e)
+        {
+            Graphics canvas = e.Graphics;
+            Transform transform = new Transform(player, maze);
+
+            // Draw Player
+            Pen viewColour = new Pen(Brushes.Yellow);
+            canvas.DrawLine(viewColour, new Point(150, 400), new Point(150, 393));
+
+
+            Brush playerColour = Brushes.Black;
+            canvas.FillEllipse(playerColour, new RectangleF(150 - player.bodySize / 2, 400 - player.bodySize / 2, player.bodySize, player.bodySize));
+
+            // Draw Walls
+/*            Pen wallColour = new Pen(Brushes.BlueViolet);
             canvas.DrawLine(viewColour, new Point(50, 100), new Point(250, 100));
+*/
+            transform.tMaze.drawWalls(canvas);
 
         }
     }

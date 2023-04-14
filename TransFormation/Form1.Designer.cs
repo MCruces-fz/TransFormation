@@ -72,6 +72,7 @@
             this.picBox3.Size = new System.Drawing.Size(370, 470);
             this.picBox3.TabIndex = 2;
             this.picBox3.TabStop = false;
+            this.picBox3.Paint += new System.Windows.Forms.PaintEventHandler(this.UpdatePictureBoxGraphics3);
             // 
             // picBox2
             // 

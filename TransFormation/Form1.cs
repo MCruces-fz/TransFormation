@@ -9,6 +9,9 @@ namespace TransFormation
         private Player player = new Player(150, 400, 3 * (float)Math.PI / 2);
         private Maze maze = new Maze(new Wall());
 
+
+        Transform transform;
+
         public Form1()
         {
             InitializeComponent();
@@ -62,6 +65,7 @@ namespace TransFormation
 
             picBox1.Invalidate();
             picBox2.Invalidate();
+            picBox3.Invalidate();
         }
 
         private void UpdatePictureBoxGraphics(object sender, PaintEventArgs e)
@@ -85,7 +89,7 @@ namespace TransFormation
         private void UpdatePictureBoxGraphics2(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
-            Transform transform = new Transform(player, maze);
+            transform = new Transform(player, maze);
 
             // Draw Player
             Pen viewColour = new Pen(Brushes.Yellow);
@@ -101,6 +105,16 @@ namespace TransFormation
 */
             transform.tMaze.drawWalls(canvas);
 
+        }
+
+        private void UpdatePictureBoxGraphics3(object sender, PaintEventArgs e)
+        {
+            Graphics canvas = e.Graphics;
+            Doom doom = new Doom(transform.tMaze);
+
+            Pen wallColour = new Pen(Brushes.DarkOrange, 7);
+
+            canvas.DrawPolygon(wallColour, doom.fPoints);
         }
     }
 }

@@ -76,6 +76,8 @@ namespace TransFormation
             Brush playerColour = Brushes.Black;
             canvas.FillEllipse(playerColour, player.bodyRect);
 
+/*            canvas.FillEllipse(Brushes.Yellow, new RectangleF(player.X2 - player.bodySize / 2, player.Y2 - player.bodySize / 2, player.bodySize, player.bodySize));
+*/
             // Draw Walls
             maze.drawWalls(canvas);
         }

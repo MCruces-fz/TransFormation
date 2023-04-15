@@ -48,7 +48,7 @@ namespace TransFormation
         public float Y2 { get; set; }
 
         public float linearSpeed = 3;
-        public float angularSpeed = 0.1f;
+        public float angularSpeed = 0.03f;
 
         public float bodySize = 5;
         public RectangleF bodyRect;
@@ -105,6 +105,16 @@ namespace TransFormation
                     theta -= (float)angularSpeed;
                     break;
             }
+        }
+
+        public void drawPlayer(Graphics canvas)
+        {
+            Pen viewColour = new Pen(Brushes.Yellow);
+            canvas.DrawLine(viewColour, new Point((int)X, (int)Y), new Point((int)X2, (int)Y2));
+
+
+            Brush playerColour = Brushes.Black;
+            canvas.FillEllipse(playerColour, bodyRect);
         }
     }
 }

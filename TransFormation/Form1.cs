@@ -1,20 +1,25 @@
-using System.DirectoryServices;
-
 namespace TransFormation
 {
     public partial class Form1 : Form
     {
+        private float X0 { set; get; }
+        private float Y0 { set; get; }
 
         bool goFront, goBack, goLeft, goRight;
-        private Player player = new Player(150, 400, 3 * (float)Math.PI / 2);
+        private Player player;
         private Maze maze = new Maze(new Wall());
 
 
         Transform transform;
+        Doom doom;
 
         public Form1()
         {
             InitializeComponent();
+
+            this.X0 = picBox1.Size.Width / 2;
+            this.Y0 = picBox1.Size.Height / 2;
+            this.player = new Player(X0, Y0, 3 * (float)Math.PI / 2);
         }
 
         private void KeyIsDown(object sender, KeyEventArgs e)
@@ -72,37 +77,16 @@ namespace TransFormation
         {
             Graphics canvas = e.Graphics;
 
-            // Draw Player
-            Pen viewColour = new Pen(Brushes.Yellow);
-            canvas.DrawLine(viewColour, new Point((int)player.X, (int)player.Y), new Point((int)player.X2, (int)player.Y2));
-
-
-            Brush playerColour = Brushes.Black;
-            canvas.FillEllipse(playerColour, player.bodyRect);
-
-/*            canvas.FillEllipse(Brushes.Yellow, new RectangleF(player.X2 - player.bodySize / 2, player.Y2 - player.bodySize / 2, player.bodySize, player.bodySize));
-*/
-            // Draw Walls
+            player.drawPlayer(canvas);
             maze.drawWalls(canvas);
         }
 
         private void UpdatePictureBoxGraphics2(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
-            transform = new Transform(player, maze);
+            transform = new Transform(picBox2, player, maze);
 
-            // Draw Player
-            Pen viewColour = new Pen(Brushes.Yellow);
-            canvas.DrawLine(viewColour, new Point(150, 400), new Point(150, 393));
-
-
-            Brush playerColour = Brushes.Black;
-            canvas.FillEllipse(playerColour, new RectangleF(150 - player.bodySize / 2, 400 - player.bodySize / 2, player.bodySize, player.bodySize));
-
-            // Draw Walls
-/*            Pen wallColour = new Pen(Brushes.BlueViolet);
-            canvas.DrawLine(viewColour, new Point(50, 100), new Point(250, 100));
-*/
+            transform.drawPlayer(canvas);
             transform.tMaze.drawWalls(canvas);
 
         }
@@ -110,11 +94,10 @@ namespace TransFormation
         private void UpdatePictureBoxGraphics3(object sender, PaintEventArgs e)
         {
             Graphics canvas = e.Graphics;
-            Doom doom = new Doom(transform.tMaze);
+            doom = new Doom(picBox3, transform.tMaze);
 
-            Pen wallColour = new Pen(Brushes.DarkOrange, 7);
-
-            canvas.DrawPolygon(wallColour, doom.fPoints);
+            doom.drawWalls(canvas);
+            // doom.drawGradient(canvas);
         }
     }
 }
